@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { View, Text, TouchableOpacity } from 'react-native'
 import { getTopHeadlines } from './actions'
+import { FlatList } from 'react-native-gesture-handler';
 
 // TODO: Component did mount get new articles
 // TODO: Take Flatlist and show dummy articles 
@@ -25,9 +26,13 @@ class HomeScreen extends Component {
     }
 
     render() {
-        // console.log("props", this.props);
-
         return (
+            // <FlatList
+            // data
+            // renderItem
+            // keyExtractor
+            // />
+
             <TouchableOpacity
                 onPress={() => this.props.getTopHeadlines()}
             >
@@ -39,8 +44,6 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state", state);
-
     return {
         news: state.newsReducer
     }
