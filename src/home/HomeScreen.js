@@ -25,20 +25,48 @@ class HomeScreen extends Component {
         }
     }
 
-    render() {
-        return (
-            // <FlatList
-            // data
-            // renderItem
-            // keyExtractor
-            // />
+    _renderItem = ({ item, index }) => {
+        console.log("renderItem", item);
 
-            <TouchableOpacity
-                onPress={() => this.props.getTopHeadlines()}
-            >
-                <Text>Hello</Text>
-                {this._renderLoader()}
-            </TouchableOpacity>
+        return (
+            <Text>{item.title}</Text>
+        )
+    }
+
+    _keyExtractor = (article, index) => index.toString()
+
+    _renderEmptyComponent = () => {
+        return (
+            <Text>List is Empty</Text>
+        )
+    }
+
+    componentWillMount() {
+        this.props.getTopHeadlines()
+    }
+
+    render() {
+        const { data } = this.props.news
+        console.log("props", this.props);
+        let articles = []
+        if ('articles' in data) {
+            articles = data.articles
+        }
+
+        return (
+            <FlatList
+                data={articles}
+                renderItem={this._renderItem}
+                keyExtractor={this._keyExtractor}
+                ListEmptyComponent={this._renderEmptyComponent}
+            />
+
+            // <TouchableOpacity
+            //     onPress={() => this.props.getTopHeadlines()}
+            // >
+            //     <Text>Hello</Text>
+            //     {this._renderLoader()}
+            // </TouchableOpacity>
         )
     }
 }

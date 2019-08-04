@@ -10,7 +10,7 @@ const getTopHeadlinesApi = () => {
     const url = BASE_URL + TOP_HEADLINES_PATH + API_SUFFIX
     return axios.get(url)
         .then(res => {
-            return res
+            return res.data
         })
         .catch(error => {
             throw error
