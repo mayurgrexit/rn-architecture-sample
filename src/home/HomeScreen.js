@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import { getTopHeadlines } from './actions'
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-navigation'
 
-// TODO: Component did mount get new articles
-// TODO: Take Flatlist and show dummy articles 
+// TODO: Component will mount get new articles - DONE
+// TODO: Take Flatlist and show dummy articles - DONE
 // TODO: Show loader while fetching articles
 // TODO: Show error when articles can't be fetched
 // TODO: Show retry button if loading fails
+// TODO: Make a NewsItem card
 class HomeScreen extends Component {
 
     constructor(props) {
@@ -25,11 +27,20 @@ class HomeScreen extends Component {
         }
     }
 
+    // TODO: convert to NewCardItem
     _renderItem = ({ item, index }) => {
         console.log("renderItem", item);
 
         return (
-            <Text>{item.title}</Text>
+            <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginBottom: 30 }}>
+                <View style={{ width: 250, height: 100, backgroundColor: '#FAFAFA', marginRight: 10 }}>
+                    <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 10 }}>{item.title}</Text>
+                    <View style={{ flex: 1, flexWrap: 'wrap' }}>
+                        <Text >{item.content}</Text>
+                    </View>
+                </View>
+                <Image style={{ width: 100, height: 100 }} source={{ uri: item.urlToImage }}></Image>
+            </View>
         )
     }
 
@@ -54,19 +65,16 @@ class HomeScreen extends Component {
         }
 
         return (
-            <FlatList
-                data={articles}
-                renderItem={this._renderItem}
-                keyExtractor={this._keyExtractor}
-                ListEmptyComponent={this._renderEmptyComponent}
-            />
-
-            // <TouchableOpacity
-            //     onPress={() => this.props.getTopHeadlines()}
-            // >
-            //     <Text>Hello</Text>
-            //     {this._renderLoader()}
-            // </TouchableOpacity>
+            <SafeAreaView style={{ flex: 1 }}>
+                <FlatList
+                    data={articles}
+                    renderItem={this._renderItem}
+                    keyExtractor={this._keyExtractor}
+                    ListEmptyComponent={this._renderEmptyComponent}
+                    refreshing={this.props.news.loading}
+                    onRefresh={this.props.getTopHeadlines}
+                />
+            </SafeAreaView>
         )
     }
 }
