@@ -27,19 +27,28 @@ class HomeScreen extends Component {
         }
     }
 
+    _newItemClicked(item) {
+        // console.log("item", item);
+        this.props.navigation.navigate('Details', { newsItem: item })
+    }
+
     // TODO: convert to NewCardItem
     _renderItem = ({ item, index }) => {
-        console.log("renderItem", item);
+        // console.log("renderItem", item);
 
         return (
-            <View style={{ justifyContent: 'flex-start', flexDirection: 'row', marginBottom: 30 }}>
-                <View style={{ width: 250, height: 100, backgroundColor: '#FAFAFA', marginRight: 10 }}>
-                    <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 10 }}>{item.title}</Text>
-                    <View style={{ flex: 1, flexWrap: 'wrap' }}>
-                        <Text >{item.content}</Text>
+            <View style={{ flex: 1, marginBottom: 30 }}>
+                <TouchableOpacity style={{ flex: 1, justifyContent: 'flex-start', flexDirection: 'row' }}
+                    onPress={this._newItemClicked.bind(this, item)}
+                >
+                    <View style={{ width: 250, height: 100, backgroundColor: '#FAFAFA', marginRight: 10 }}>
+                        <Text style={{ fontWeight: '600', fontSize: 16, marginBottom: 10 }}>{item.title}</Text>
+                        <View style={{ flex: 1, flexWrap: 'wrap' }}>
+                            <Text >{item.content}</Text>
+                        </View>
                     </View>
-                </View>
-                <Image style={{ width: 100, height: 100 }} source={{ uri: item.urlToImage }}></Image>
+                    <Image style={{ width: 100, height: 100 }} source={{ uri: item.urlToImage }}></Image>
+                </TouchableOpacity>
             </View>
         )
     }
